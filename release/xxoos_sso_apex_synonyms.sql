@@ -1,14 +1,14 @@
 /*
 -------------------------------------------------------------------------------
-Name .................. sso_apps_synonyms.sql
-Function .............. SQL script to create APPS synonyms for the SSO tables for the
+Name .................. xxoos_sso_apex_synonyms.sql
+Function .............. SQL script to create synonyms for the PL/SQL for the
                         Oracle Open Source - Single Sign On for APEX
 Environment ........... Oracle 11gR1 and above
 Parameters ............
 Arguments:
   Position 1: Name of APPS schema
   Position 2: Name of XX schema
-Called by  ............ sso_release_apps.sql
+Called by  ............ xxoos_sso_release_apps.sql
 User .................. Connect as database user SYSTEM
 Comments ..............
 
@@ -19,7 +19,7 @@ Date          Rev.	Author		              Comments
 14-JUN-2009	  1.0.0   C2 Consulting, Inc.  	Initial Release
 02-MAY-2016	  2.0.0   Insum-Sylvain Martel	Initial Public Release
 08-AUG-2016   2.1.0   Insum-Sylvain Martel  Review for file names standardization
-----------------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------
 */
 
 set define '^'
@@ -37,25 +37,23 @@ whenever oserror exit
 whenever sqlerror exit
 
 
-prompt Start of script sso_apps_synonyms.sql
-prompt +++++++++++++++++++++++++++++++++++++++
+prompt Start of script xxoos_sso_apex_synonyms.sql
+prompt +++++++++++++++++++++++++++++++++++++++++++++
 
 set verify on
 
--- Create synonym for the custom tables
+-- Create synonym for the common PL/SQL package
 -- ====================================================
-CREATE OR REPLACE SYNONYM ^APPS_SCH..xxoos_sso_info_defaults FOR ^XX_SCH..xxoos_sso_info_defaults;
-CREATE OR REPLACE SYNONYM ^APPS_SCH..xxoos_sso_info FOR ^XX_SCH..xxoos_sso_info;
-CREATE OR REPLACE SYNONYM ^APPS_SCH..xxoos_sso_apps FOR ^XX_SCH..xxoos_sso_apps;
-CREATE OR REPLACE SYNONYM ^APPS_SCH..xxoos_sso_log FOR ^XX_SCH..xxoos_sso_log;
+CREATE OR REPLACE SYNONYM ^XX_SCH..xxoos_sso_partner_utils FOR ^APPS_SCH..xxoos_sso_partner_utils;
+CREATE OR REPLACE SYNONYM ^XX_SCH..xxoos_sso_public FOR ^APPS_SCH..xxoos_sso_public;
 
 set verify off
 
-prompt End of script sso_apps_synonyms.sql
-prompt +++++++++++++++++++++++++++++++++++++++
+prompt Start of script xxoos_sso_apex_synonyms.sql
+prompt +++++++++++++++++++++++++++++++++++++++++++++
 
 
 
--- =========================================
--- End of script sso_apps_synonyms.sql
--- =========================================
+-- ===========================================
+-- End of script xxoos_sso_apex_synonyms.sql
+-- ===========================================

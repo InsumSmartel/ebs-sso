@@ -1,14 +1,14 @@
 /*
 -------------------------------------------------------------------------------
-Name .................. sso_release_apps.sql
-Purpose ............... SQL Script to install the PL/SQL components in schema APPS
+Name .................. xxoos_sso_packages.sql
+Purpose ............... SQL Script calling the create PL/SQL scripts for the
                         Oracle Open Source - Single Sign On for APEX
 Environment ........... Oracle 11gR1 and above
 Parameters ............
 Arguments:
   Position 1: Name of APPS schema
   Position 2: Name of XX schema
-Called by  ............ sso_release.sql
+Called by  ............ xxoos_sso_release_apps.sql
 User .................. Connect as database user SYSTEM
 Comments ..............
 
@@ -22,7 +22,6 @@ Date          Rev.	Author		              Comments
 08-AUG-2016   2.1.0   Insum-Sylvain Martel  Review for file names standardization
 -----------------------------------------------------------------------------------------------------
 */
-
 
 set define '^'
 set concat on
@@ -38,27 +37,24 @@ define XX_SCH   = '^2'
 whenever oserror exit
 whenever sqlerror exit
 
+prompt Start of script xxoos_sso_packages.sql
+prompt +++++++++++++++++++++++++++++++++++++++++
+
 -- The scripts required in the approrpiate order for your deployement
 -- Always use relative paths
 
--- ==========================================
--- Install script for each database object
--- ==========================================
-
-prompt =====================================
-prompt Start of script sso_release_apps.sql
-prompt =====================================
-
-@sso_apps_synonyms.sql ^APPS_SCH ^XX_SCH;
-@../packages/sso_packages.sql ^APPS_SCH ^XX_SCH;
-@sso_apps_grants.sql ^APPS_SCH ^XX_SCH;
-@sso_apex_synonyms.sql ^APPS_SCH ^XX_SCH;
+-- ============================
+-- PL/SQL Packages
+-- ============================
+@../packages/xxoos_sso_partner_utils.pks ^APPS_SCH;
+@../packages/xxoos_sso_partner_utils.pkb ^APPS_SCH;
+@../packages/xxoos_sso_public.pks ^APPS_SCH;
+@../packages/xxoos_sso_public.pkb ^APPS_SCH;
 commit;
 
-prompt
-prompt =====================================
-prompt End of script sso_release_apps.sql
-prompt =====================================
+
+prompt End of script xxoos_sso_packages.sql
+prompt +++++++++++++++++++++++++++++++++++++++
 
 
--- End of script sso_release_apps.sql
+-- End of script xxoos_sso_packages.sql

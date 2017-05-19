@@ -1,14 +1,14 @@
-/*
+  /*
 -------------------------------------------------------------------------------
-Name .................. sso_apex_synonyms.sql
-Function .............. SQL script to create synonyms for the PL/SQL for the
+Name .................. xxoos_sso_apex_grants.sql
+Function .............. SQL script to create the grants on sso tables for APPS for the
                         Oracle Open Source - Single Sign On for APEX
 Environment ........... Oracle 11gR1 and above
 Parameters ............
 Arguments:
   Position 1: Name of APPS schema
   Position 2: Name of XX schema
-Called by  ............ sso_release_apps.sql
+Called by  ............ xxoos_sso_release_xx.sql
 User .................. Connect as database user SYSTEM
 Comments ..............
 
@@ -37,23 +37,33 @@ whenever oserror exit
 whenever sqlerror exit
 
 
-prompt Start of script sso_apex_synonyms.sql
-prompt +++++++++++++++++++++++++++++++++++++++
+prompt Start of script xxoos_sso_apex_grants.sql
+prompt +++++++++++++++++++++++++++++++++++++++++++
 
 set verify on
 
--- Create synonym for the common PL/SQL package
--- ====================================================
-CREATE OR REPLACE SYNONYM ^XX_SCH..xxoos_sso_partner_utils FOR ^APPS_SCH..xxoos_sso_partner_utils;
-CREATE OR REPLACE SYNONYM ^XX_SCH..xxoos_sso_public FOR ^APPS_SCH..xxoos_sso_public;
+-- Grants to APPS schema for the custom tables
+-- ======================================================
+GRANT ALTER, DELETE, INDEX, INSERT, REFERENCES, SELECT, UPDATE, ON COMMIT REFRESH, QUERY REWRITE, DEBUG, FLASHBACK ON
+^XX_SCH..xxoos_sso_info_defaults TO ^APPS_SCH. WITH GRANT OPTION;
 
+GRANT ALTER, DELETE, INDEX, INSERT, REFERENCES, SELECT, UPDATE, ON COMMIT REFRESH, QUERY REWRITE, DEBUG, FLASHBACK ON
+^XX_SCH..xxoos_sso_info TO ^APPS_SCH. WITH GRANT OPTION;
+
+GRANT ALTER, DELETE, INDEX, INSERT, REFERENCES, SELECT, UPDATE, ON COMMIT REFRESH, QUERY REWRITE, DEBUG, FLASHBACK ON
+^XX_SCH..xxoos_sso_apps TO ^APPS_SCH. WITH GRANT OPTION;
+
+GRANT ALTER, DELETE, INDEX, INSERT, REFERENCES, SELECT, UPDATE, ON COMMIT REFRESH, QUERY REWRITE, DEBUG, FLASHBACK ON
+^XX_SCH..xxoos_sso_log TO ^APPS_SCH. WITH GRANT OPTION;
+
+commit;
 set verify off
 
-prompt Start of script sso_apex_synonyms.sql
-prompt +++++++++++++++++++++++++++++++++++++++
+prompt End of script xxoos_sso_apex_grants.sql
+prompt +++++++++++++++++++++++++++++++++++++++++
 
 
 
 -- =========================================
--- End of script sso_apex_synonyms.sql
+-- End of script xxoos_sso_apex_grants.sql
 -- =========================================

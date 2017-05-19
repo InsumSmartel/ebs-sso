@@ -1,14 +1,14 @@
 /*
 -------------------------------------------------------------------------------
-Name .................. create_sso_tables.sql
-Purpose ............... SQL Script calling the create tables scripts for the
+Name .................. xxoos_sso_release_xx.sql
+Purpose ............... SQL Script to install the database components (tables) for the
                         Oracle Open Source - Single Sign On for APEX
 Environment ........... Oracle 11gR1 and above
 Parameters ............
 Arguments:
   Position 1: Name of APPS schema
   Position 2: Name of XX schema
-Called by  ............ sso_release_xx.sql
+Called by  ............ xxoos_sso_release.sql
 User .................. Connect as database user SYSTEM
 Comments ..............
 
@@ -21,7 +21,6 @@ Date          Rev.	Author		              Comments
 02-MAY-2016	  2.0.0   Insum-Sylvain Martel	Initial Public Release
 08-AUG-2016   2.1.0   Insum-Sylvain Martel  Review for file names standardization
 -----------------------------------------------------------------------------------------------------
-
 */
 
 set define '^'
@@ -38,25 +37,29 @@ define XX_SCH   = '^2'
 whenever oserror exit
 whenever sqlerror exit
 
-
-prompt Start of script create_sso_tables.sql
-prompt +++++++++++++++++++++++++++++++++++++++
-
 -- The scripts required in the approrpiate order for your deployement
 -- Always use relative paths
 
--- ============================
--- Tables
--- ============================
-@table_xxoos_sso_info.sql ^XX_SCH;
-@table_xxoos_sso_info_defaults.sql ^XX_SCH;
-@table_xxoos_sso_apps.sql ^XX_SCH;
-@table_xxoos_sso_log.sql ^XX_SCH;
+-- ==========================================
+-- Install script for each database object
+-- ==========================================
+
+prompt ==========================================
+prompt Start of script xxoos_sso_release_xx.sql
+prompt ==========================================
+prompt
+
+@xxoos_create_sso_tables.sql ^APPS_SCH ^XX_SCH;
+@../indexes/xxoos_sso_indexes.sql ^APPS_SCH ^XX_SCH;
+@../sequences/xxoos_sso_sequences.sql ^APPS_SCH ^XX_SCH;
+@../triggers/xxoos_sso_triggers.sql ^APPS_SCH ^XX_SCH;
+@xxoos_sso_apex_grants.sql ^APPS_SCH ^XX_SCH;
 commit;
 
-prompt End of script create_sso_tables.sql
-prompt +++++++++++++++++++++++++++++++++++++++
+prompt
+prompt ========================================
+prompt End of script xxoos_sso_release_xx.sql
+prompt ========================================
 
 
-
--- End of script create_sso_tables.sql
+-- End of script xxoos_sso_release_xx.sql

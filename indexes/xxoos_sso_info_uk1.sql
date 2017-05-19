@@ -7,7 +7,7 @@ Environment ........... Oracle 11gR1 and above
 Parameters ............
 Arguments:
   Position 1: Name of XX schema
-Called by  ............ sso_indexes.sql
+Called by  ............ xxoos_sso_indexes.sql
 User .................. Connect as database user SYSTEM
 Comments ..............
 

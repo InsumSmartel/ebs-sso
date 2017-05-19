@@ -8,7 +8,7 @@ Environment ........... Oracle 11gR1 and above
 Parameters ............
 Arguments:
   None
-Called by  ............ sso_packages.sql
+Called by  ............ xxoos_sso_packages.sql
 User .................. Connect as database user APPS
 Comments ..............
 

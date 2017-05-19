@@ -1,14 +1,14 @@
 /*
 -------------------------------------------------------------------------------
-Name .................. sso_apps_grants.sql
-Function .............. SQL script to create grants for the PL/SQL packages to the DB schema having the tables for the
+Name .................. xxoos_sso_apps_synonyms.sql
+Function .............. SQL script to create APPS synonyms for the SSO tables for the
                         Oracle Open Source - Single Sign On for APEX
 Environment ........... Oracle 11gR1 and above
 Parameters ............
 Arguments:
   Position 1: Name of APPS schema
   Position 2: Name of XX schema
-Called by  ............ sso_release_apps.sql
+Called by  ............ xxoos_sso_release_apps.sql
 User .................. Connect as database user SYSTEM
 Comments ..............
 
@@ -37,19 +37,25 @@ whenever oserror exit
 whenever sqlerror exit
 
 
-prompt Start of script sso_apps_grants.sql
-prompt +++++++++++++++++++++++++++++++++++++++
+prompt Start of script xxoos_sso_apps_synonyms.sql
+prompt +++++++++++++++++++++++++++++++++++++++++++++
 
--- Create grants for the common PL/SQL packages
+set verify on
+
+-- Create synonym for the custom tables
 -- ====================================================
-GRANT EXECUTE ON ^APPS_SCH..xxoos_sso_partner_utils TO ^XX_SCH.;
-GRANT EXECUTE ON ^APPS_SCH..xxoos_sso_public TO ^XX_SCH.;
+CREATE OR REPLACE SYNONYM ^APPS_SCH..xxoos_sso_info_defaults FOR ^XX_SCH..xxoos_sso_info_defaults;
+CREATE OR REPLACE SYNONYM ^APPS_SCH..xxoos_sso_info FOR ^XX_SCH..xxoos_sso_info;
+CREATE OR REPLACE SYNONYM ^APPS_SCH..xxoos_sso_apps FOR ^XX_SCH..xxoos_sso_apps;
+CREATE OR REPLACE SYNONYM ^APPS_SCH..xxoos_sso_log FOR ^XX_SCH..xxoos_sso_log;
 
-prompt End of script sso_apps_grants.sql
-prompt +++++++++++++++++++++++++++++++++++++++
+set verify off
+
+prompt End of script xxoos_sso_apps_synonyms.sql
+prompt +++++++++++++++++++++++++++++++++++++++++++
 
 
 
--- =========================================
--- End of script sso_apps_grants.sql
--- =========================================
+-- ===========================================
+-- End of script xxoos_sso_apps_synonyms.sql
+-- ===========================================

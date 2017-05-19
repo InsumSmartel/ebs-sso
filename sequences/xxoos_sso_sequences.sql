@@ -1,13 +1,14 @@
 /*
 -------------------------------------------------------------------------------
-Name .................. xxoos_sso_log_s.seq
-Purpose ............... SQL Script to create sequence for table xxoos_sso_log for the
+Name .................. xxoos_sso_sequences.sql
+Purpose ............... SQL Script to create sequences for the
                         Oracle Open Source - Single Sign On for APEX
 Environment ........... Oracle 11gR1 and above
 Parameters ............
 Arguments:
-  Position 1: Name of XX schema
-Called by  ............ xxoos_sso_sequences.sql
+  Position 1: Name of APPS schema
+  Position 2: Name of XX schema
+Called by  ............ xxoos_sso_release_xx.sql
 User .................. Connect as database user SYSTEM
 Comments ..............
 
@@ -17,7 +18,7 @@ Changes
 Date          Rev.	Author		            Comments
 =====================================================================================================
 14-JUN-2009	  1.0   C2 Consulting, Inc.  	Initial Release
-02-MAY-2016	  2.0   Insum-Sylvain Martel	Initial Public Release
+02-MAY-2016   2.0   Insum-Sylvain Martel  Initial Public Release
 25-MAY-2016   2.01  Insum-Sylvain Martel  Review for standardization
 -----------------------------------------------------------------------------------------------------
 */
@@ -29,35 +30,31 @@ set verify off
 -- To generate the log properly
 set serveroutput on;
 
-define XX_SCH = '^1'
+define APPS_SCH = '^1'
+define XX_SCH   = '^2'
 
 -- To stop the script's execution if it encounters an error
 whenever oserror exit
 whenever sqlerror exit
 
-prompt Validating sequence xxoos_sso_log_s
-prompt
-BEGIN
-   EXECUTE IMMEDIATE 'DROP SEQUENCE ^XX_SCH..xxoos_sso_log_s';
+prompt Start of script xxoos_sso_sequences.sql
+prompt +++++++++++++++++++++++++++++++++++++++++
 
-EXCEPTION
-  WHEN OTHERS THEN
-    dbms_output.put_line('xxoos_sso_log_s.seq: Sequence xxoos_sso_log_s doesn''t exist and cannot be dropped.');
-END;
-/
+-- The scripts required in the approrpiate order for your deployement
+-- Always use relative paths
 
--- ------------------------------------------
--- Create Sequence
--- ------------------------------------------
-CREATE SEQUENCE ^XX_SCH..xxoos_sso_log_s
-MINVALUE 1
-MAXVALUE 999999999999999999999999999
-INCREMENT BY 1
-START WITH 1001
-CACHE 20
-NOORDER
-NOCYCLE  -- NOPARTITION for release 12c and up
-/
+-- ============================
+-- Sequences
+-- ============================
+@../sequences/xxoos_sso_info_s.seq ^XX_SCH;
+@../sequences/xxoos_sso_apps_s.seq ^XX_SCH;
+@../sequences/xxoos_sso_log_s.seq ^XX_SCH;
+commit;
 
 
--- End of script xxoos_sso_log_s.seq
+prompt End of script xxoos_sso_sequences.sql
+prompt +++++++++++++++++++++++++++++++++++++++
+
+
+
+-- End of script xxoos_sso_sequences.sql
